@@ -49,26 +49,28 @@ body {
 }
 
 .floor {
-    
+    position: relative;
     display: flex;
     flex-direction: row;
-    justify-content: left;
-    width: 95%;
+    justify-content: center;
+    width: fit-content;
+    max-width: fit-content;
     font-size: 1.5rem;
     background-color: rgb(186, 186, 186);
     margin: 1rem 5%;
-    padding: 0 0;
+    padding: 0.8rem 0rem;
 }
 
 .container {
     display: flex;
     flex-direction: column-reverse;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
+    max-width: 100vh;
   
     font-size: 1rem;
     
-    background-color: rgb(215, 217, 178);
+    
     margin-top: 0%;
    
 }
@@ -77,7 +79,7 @@ body {
     display: flex;
     flex-direction: column-reverse;
     border: 0.rem solid rgba(82, 85, 85, 0.388);
-    max-width: fit-content;
+    width: 5rem;
     height: fit-content;
     padding: 0.4rem;
     margin-left: 0.4rem;
@@ -148,7 +150,7 @@ body {
 
 .lift_space {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 8rem;
@@ -160,3 +162,105 @@ body {
     border-radius: 0.5rem;
     cursor: pointer;
 }
+
+.lift_unit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 8rem;
+    height: 12rem;
+    margin:  0 1rem;
+    padding: 0rem;
+    background-color: rgba(43, 200, 67, 0.67);
+    border: solid rgba(0, 0, 0, 0.923);
+    border-radius: 0.5rem;
+}
+
+.lift_doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 8rem;
+    height: 12rem;
+}
+
+.lift_door_left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: rgb(162, 162, 162);
+    border: 0.01rem solid rgb(0, 0, 0);
+
+}
+
+.lift_door_right {
+    display: flex;
+    
+    width: 100%;
+    background-color: rgb(162, 162, 162);
+    border: 0.01rem solid rgb(0, 0, 0);
+
+}
+
+.lift_door_open_left {
+    width: 0%;
+    animation: open_left 2.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.lift_door_open_right {
+    width: 0%;
+    margin-left: auto;
+    margin-right: 0%;
+    animation: open_right 2.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.lift_door_closed_left {
+    width: 100%;
+    animation: close_left 2.5s ease-in-out;
+}
+
+.lift_door_closed_right {
+    width: 100%;
+    margin-left: auto;
+    margin-right: 0%;
+    animation: close_right 2.5s ease-in-out;
+}
+
+@keyframes open_left {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+
+@keyframes open_right {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+
+@keyframes close_left {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes close_right {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+    

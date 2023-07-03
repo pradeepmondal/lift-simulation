@@ -28,6 +28,8 @@ const CreateUI = () => {
     container.classList.add('container');
     root.appendChild(container);
 
+
+    // creating floors
     for (let i=0; i<=floors; i++) {
         const floor = document.createElement('div');
         floor.classList.add('floor');
@@ -42,10 +44,10 @@ const CreateUI = () => {
             ctrBtn.innerHTML = `<div class="floor_btn"><button class="floor_up">^</button><button class="floor_down">v</button></div>`;
         }
 
-        floor.innerHTML = `<div class="floor_ctrl">${ctrBtn.innerHTML}<div class="floor_number"> ${(i==0)?'G Floor':'Floor '+i}</div></div>`;
+        floor.innerHTML = `<div class="floor_ctrl">${ctrBtn.innerHTML}<div class="floor_number"> ${(i==0)?'Floor G':'Floor '+i}</div></div>`;
         container.appendChild(floor);
     }
-
+    // creating lifts & lift spaces
     for (let i=0; i<lifts; i++) {
         const lift = document.createElement('div');
         lift.classList.add('lift_space');
@@ -69,7 +71,8 @@ const CreateUI = () => {
             lift_space.innerText = `lift space ${i+1}`;
 
             if(j==0) {
-                lift_space.innerHTML = `<div class="lift_unit">Lift ${i+1}</div>`
+                lift_space.innerHTML = `<div class="lift_unit" id="#lift+${i}" >Lift ${i+1}</div>`
+                
             }
 
             document.getElementsByClassName('floor')[j].appendChild(lift_space);
@@ -80,8 +83,50 @@ const CreateUI = () => {
         
         
     }
+    //function to create lift doors
+    const LiftDoors = () => {
+        for (let i=0; i<lifts; i++) {
+        lift_unit = document.getElementsByClassName('lift_unit')[i];
+        lift_unit.innerHTML = `<div class = "lift_doors"><div class="lift_door_left"></div><div class="lift_door_right"></div></div>`
+    
+    }
+    }
+
+    // creating lift doors
+    LiftDoors();
+
+    document.getElementsByClassName('lift_up')[0].addEventListener('click', () => {
+        OpenDoors(0);
+    });
+
     
 };
+
+const OpenDoors = (lift) => {
+    const lift_door_left = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_left')[0];
+    const lift_door_right = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_right')[0];
+    lift_door_left.classList.add('lift_door_open_left');
+    lift_door_left.classList.remove('lift_door_closed_left');
+    lift_door_right.classList.add('lift_door_open_right');
+    lift_door_right.classList.remove('lift_door_closed_right');
+    setTimeout(() => {
+        CloseDoors(lift);
+    }, 5000);
+}
+
+const CloseDoors = (lift) => {
+    const lift_door_left = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_left')[0];
+    const lift_door_right = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_right')[0];
+    lift_door_left.classList.remove('lift_door_open_left');
+    lift_door_left.classList.add('lift_door_closed_left');
+    lift_door_right.classList.remove('lift_door_open_right');
+    lift_door_right.classList.add('lift_door_closed_right');
+    
+}
+
+
+
+
 
 
 const Intro = () => {
