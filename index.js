@@ -26,10 +26,21 @@ const CreateUI = () => {
     container.classList.add('container');
     root.appendChild(container);
 
-    for (let i=0; i<floors; i++) {
+    for (let i=0; i<=floors; i++) {
         const floor = document.createElement('div');
         floor.classList.add('floor');
-        floor.innerHTML = `<div class="floor_number">${i+1}</div>`;
+        ctrBtn = document.createElement('div');
+        if (i==0) {
+            ctrBtn.innerHTML = `<div class="floor_btn"><button class="floor_up" >^</button></div>`;
+        }
+        else if (i==floors) {
+            ctrBtn.innerHTML = `<div class="floor_btn"><button class="floor_down">v</button></div>`;
+        }
+        else {
+            ctrBtn.innerHTML = `<div class="floor_btn"><button class="floor_up">^</button><button class="floor_down">v</button></div>`;
+        }
+
+        floor.innerHTML = `<div class="floor_ctrl">${ctrBtn.innerHTML}<div class="floor_number">${(i==0)?'G':i}</div></div>`;
         container.appendChild(floor);
     }
     

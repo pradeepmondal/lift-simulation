@@ -49,17 +49,15 @@ body {
 }
 
 .floor {
+    
     display: flex;
     flex-direction: column-reverse;
     justify-content: center;
-    width: 80%;
-    
-    margin: 1rem 0;
+    width: 95%;
     font-size: 1.5rem;
-    border: 0.3rem solid #000;
-    background-color: rgba(61, 30, 9, 0.3);
-    margin-top: 0%;
-    margin: 3rem 10%;
+    background-color: rgb(186, 186, 186);
+    margin: 1rem 5%;
+    padding: 1.5rem 0;
 }
 
 .container {
@@ -68,9 +66,58 @@ body {
     justify-content: center;
     align-items: center;
   
-    font-size: 1.5rem;
+    font-size: 1rem;
     
-    background-color: rgba(207, 232, 207, 0.3);
+    background-color: rgb(215, 217, 178);
     margin-top: 0%;
    
+}
+
+.floor_ctrl {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 0.1rem solid rgb(29, 44, 42);
+    max-width: fit-content;
+    padding: 0.4rem;
+    margin-left: 0.4rem;
+    border-radius: 0.4rem;
+}
+
+.floor_number {
+    color: rgb(29, 44, 42);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin: 0;
+    margin-top: 0;
+    padding: 0.5rem;
+ 
+    border-radius: 0.5rem;
+}
+
+
+
+.floor_number:hover {
+    color: rgba(249, 27, 27, 0.788);
+    cursor: pointer;
+}
+
+.floor_btn {
+    display: flex;
+    max-width: fit-content;
+
+}
+
+.floor_btn button{
+    margin: 0.3rem;
+    padding: 0.5rem;
+    background-color: rgba(158, 165, 164, 0.388);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.floor_btn button:hover {
+    
+    color: rgb(244, 24, 24);
+    border: 0.1rem solid rgb(244, 24, 24);
 }
