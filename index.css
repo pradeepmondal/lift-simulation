@@ -51,13 +51,13 @@ body {
 .floor {
     
     display: flex;
-    flex-direction: column-reverse;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: left;
     width: 95%;
     font-size: 1.5rem;
     background-color: rgb(186, 186, 186);
     margin: 1rem 5%;
-    padding: 1.5rem 0;
+    padding: 0 0;
 }
 
 .container {
@@ -76,11 +76,14 @@ body {
 .floor_ctrl {
     display: flex;
     flex-direction: column-reverse;
-    border: 0.1rem solid rgb(29, 44, 42);
+    border: 0.rem solid rgba(82, 85, 85, 0.388);
     max-width: fit-content;
+    height: fit-content;
     padding: 0.4rem;
     margin-left: 0.4rem;
     border-radius: 0.4rem;
+    background-color: rgba(88, 75, 104, 0.529);
+    backdrop-filter: blur(1rem);
 }
 
 .floor_number {
@@ -104,7 +107,8 @@ body {
 
 .floor_btn {
     display: flex;
-    max-width: fit-content;
+    
+    justify-content: center;
 
 }
 
@@ -112,6 +116,7 @@ body {
     margin: 0.3rem;
     padding: 0.5rem;
     background-color: rgba(158, 165, 164, 0.388);
+    border: solid rgba(0, 0, 0, 0.923);
     border-radius: 0.5rem;
     cursor: pointer;
 }
@@ -119,5 +124,39 @@ body {
 .floor_btn button:hover {
     
     color: rgb(244, 24, 24);
-    border: 0.1rem solid rgb(244, 24, 24);
+    border: solid rgb(244, 24, 24);
+}
+
+
+
+.lift_btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+    padding: 0rem;
+    background-color: rgba(24, 29, 61, 0.67);
+    border: solid rgba(0, 0, 0, 0.923);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.lift_btn button {
+    margin: 0;
+}
+
+.lift_space {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 8rem;
+    height: 12rem;
+    margin:  0 1rem;
+    padding: 0rem;
+    background-color: rgba(24, 29, 61, 0.67);
+    border: solid rgba(0, 0, 0, 0.923);
+    border-radius: 0.5rem;
+    cursor: pointer;
 }

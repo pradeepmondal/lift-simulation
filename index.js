@@ -18,6 +18,8 @@ const StartSimulation = () => {
     });
 }
 
+
+// function to create the UI
 const CreateUI = () => {
     const floors = localStorage.getItem('floors');
     const lifts = localStorage.getItem('lifts');
@@ -40,8 +42,43 @@ const CreateUI = () => {
             ctrBtn.innerHTML = `<div class="floor_btn"><button class="floor_up">^</button><button class="floor_down">v</button></div>`;
         }
 
-        floor.innerHTML = `<div class="floor_ctrl">${ctrBtn.innerHTML}<div class="floor_number">${(i==0)?'G':i}</div></div>`;
+        floor.innerHTML = `<div class="floor_ctrl">${ctrBtn.innerHTML}<div class="floor_number"> ${(i==0)?'G Floor':'Floor '+i}</div></div>`;
         container.appendChild(floor);
+    }
+
+    for (let i=0; i<lifts; i++) {
+        const lift = document.createElement('div');
+        lift.classList.add('lift_space');
+        for (let j=0; j<=floors; j++) {
+            lift_ctrl = document.createElement('div');
+            lift_ctrl.classList.add('lift_ctrl');
+            if(j==0) {
+
+                lift_ctrl.innerHTML = `<div class="lift_btn"><button class="lift_up">^</button></div>`
+            }
+            else if (j==floors) {
+                lift_ctrl.innerHTML = `<div class="lift_btn"><button class="lift_down">v</button></div>`
+            }
+            else {
+            lift_ctrl.innerHTML = `<div class="lift_btn"><button class="lift_up">^</button><button class="lift_down">v</button></div>`
+            }
+            document.getElementsByClassName('floor')[j].appendChild(lift_ctrl);
+
+            lift_space = document.createElement('div');
+            lift_space.classList.add('lift_space');
+            lift_space.innerText = `lift space ${i+1}`;
+
+            if(j==0) {
+                lift_space.innerHTML = `<div class="lift_unit">Lift ${i+1}</div>`
+            }
+
+            document.getElementsByClassName('floor')[j].appendChild(lift_space);
+            
+        }
+        
+        
+        
+        
     }
     
 };
