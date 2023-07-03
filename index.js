@@ -11,6 +11,7 @@ const StartSimulation = () => {
             localStorage.setItem('floors', floors);
             localStorage.setItem('lifts', lifts);
             document.querySelector('.intro').remove();
+
             CreateUI();
 
         }
@@ -95,9 +96,14 @@ const CreateUI = () => {
     // creating lift doors
     LiftDoors();
 
-    document.getElementsByClassName('lift_up')[0].addEventListener('click', () => {
-        OpenDoors(0);
-    });
+    // document.getElementsByClassName('lift_up')[0].addEventListener('click', () => {
+    //     OpenDoors(0);
+    // });
+
+    createLiftsQueue();
+
+    addBtnFunc();
+
 
     
 };
@@ -124,6 +130,59 @@ const CloseDoors = (lift) => {
     
 }
 
+// function to create lifts queue
+const createLiftsQueue = () => {
+    const lifts = localStorage.getItem('lifts');
+    for (let i=0; i<lifts; i++) {
+        localStorage.setItem(`lift${i+1}Queue`, JSON.stringify({'up': [], 'down': []}));
+        localStorage.setItem(`lift${i+1}CurFloor`, JSON.stringify([0,0]));
+    }
+}
+
+const addBtnFunc = () => {
+    const floors = localStorage.getItem('floors');
+    const lifts = localStorage.getItem('lifts');
+
+    for (let i=0; i<floors; i++) {
+        for (let j=0; j<lifts; j++) {   
+        const floor_up = document.getElementsByClassName('floor_up')[i];
+        const floor_down = document.getElementsByClassName('floor_down')[i];
+        const lift_up = document.getElementsByClassName('lift_up')[(i*lifts)+j];
+        const lift_down = document.getElementsByClassName('lift_down')[(i*lifts)+j];
+        floor_up.addEventListener('click', () => {
+            
+        })
+        floor_down.addEventListener('click', () => {
+            
+    })
+        lift_up.addEventListener('click', () => {
+            curFloor = JSON.parse(localStorage.getItem(`lift${j+1}CurFloor`).trim());
+                if ((curFloor[0] === i ) && (curFloor[1] >= 0)) {
+                OpenDoors(j);    
+                }
+                else {
+                const liftQueue =  JSON.parse(localStorage.getItem(`lift${j+1}Queue`));
+                const t = i
+                if (!(liftQueue.up.includes(t))) {
+                liftQueue.up.push(t);
+                console.log(liftQueue.up)
+                localStorage.setItem(`lift${j+1}Queue`, JSON.stringify(liftQueue))
+                
+                // Call Move Lift Function
+
+                }
+                
+                }
+    })
+
+
+}
+
+    }
+
+
+
+}
 
 
 
