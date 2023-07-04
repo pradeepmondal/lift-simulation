@@ -149,7 +149,7 @@ body {
 }
 
 .lift_space {
-    display: flex;
+    display: absolute;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -164,7 +164,24 @@ body {
 }
 
 .lift_unit {
-    display: flex;
+    z-index: 1;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* transform: translate(10rem, -10rem); */
+    width: 8rem;
+    height: 12rem;
+    /* margin:  0 1rem; */
+    padding: 0rem;
+    background-color: rgba(20, 134, 37, 0.67);
+    border: solid rgba(0, 0, 0, 0.923);
+    border-radius: 0.5rem;
+}
+
+.lift_unit1 {
+    z-index: 1;
+    display: absolute;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -172,16 +189,27 @@ body {
     height: 12rem;
     margin:  0 1rem;
     padding: 0rem;
-    background-color: rgba(43, 200, 67, 0.67);
+    background-color: rgba(220, 27, 27, 0.67);
     border: solid rgba(0, 0, 0, 0.923);
     border-radius: 0.5rem;
 }
 
+
 .lift_doors {
+    /* display: absolute; */
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 8rem;
     height: 12rem;
+
+}
+
+.door_container {
+    z-index: 2;
+    position: absolute;
+    width: 8rem;
+    height: 12rem;
+    margin-bottom: 12rem;
 }
 
 .lift_door_left {
