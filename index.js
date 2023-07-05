@@ -169,56 +169,48 @@ const addBtnFunc =  () => {
             
 })
 
-        const LiftUpFunc = async (i=i) => {
-            curFloor = JSON.parse(localStorage.getItem(`lift${j+1}CurFloor`).trim());
-            let isMove = true;
-                if ((curFloor[0] === i ) && (curFloor[1] >= 0)) {
-                    OpenDoors(j);    
-                }
+        const LiftUpFunc = async (floorNum) => {
+            let curFloor = JSON.parse(localStorage.getItem(`lift${j+1}CurFloor`).trim());
+            let isMove = false;
 
-                else if (curFloor[0] < i ){
+            if ((curFloor[0] === floorNum) && (curFloor[1] >= 0)) {
+                isMove = true;
+            }
                 
-                    console.log(`lift is inside func`)
+
+                
+                
+                    console.log(`lift is on different floor, adding to queue`)
                     const liftQueue =  JSON.parse(localStorage.getItem(`lift${j+1}Queue`));
+
+                    if(liftQueue.up.length === 0) {
+                        console.log(`Queue is empty, adding to queue, and moving lift`)
+                        isMove = true;}
                     
 
-                    const t = i
+                    const t = floorNum
 
                     if (!(liftQueue.up.includes(t))) {
 
                         liftQueue.up.push(t);
-                        console.log(liftQueue.up)
-                        localStorage.setItem(`lift${j+1}Queue`, JSON.stringify(liftQueue))
+                        console.log(`New Queue is ${liftQueue.up}`);
+                        localStorage.setItem(`lift${j+1}Queue`, JSON.stringify(liftQueue));
+                        console.log(`lift queue is ${liftQueue.up}`);
+                        // console.log(`lift ${j+1} priority  is ${preferDictGenUp(liftQueue.up, curFloor[0])[0]}`);
                     
                 
                         // Call Move Lift Function
                         if(isMove) {
-                            liftQueue.up.pop(t);
-                            localStorage.setItem(`lift${j+1}Queue`, JSON.stringify(liftQueue));
-                            await new Promise((resolve, reject) => { MoveLift(j, i-curFloor[0]);
-                                setTimeout(() => {
-                                    console.log(`lift reached floor ${Math.abs(i)}`);
-                                    localStorage.setItem(`lift${j+1}CurFloor`, JSON.stringify([i, 1]));
-                                    console.log(`Now Current floor is  ${Math.abs(i)}`);
-                                    resolve();
-                                }, 5000+Math.abs(curFloor[0]-i)*2000);} );
-
-                                
-                            const liftQueue1 =  JSON.parse(localStorage.getItem(`lift${j+1}Queue`));
-                            console.log(`Current Queue is   ${liftQueue1.up}`);
-                            if(liftQueue1.up.length !== 0) {
-                                const arg = (liftQueue1.up.filter((item) => item >= i).sort())[0];
-                            console.log(`Next in Queue is   ${arg}`);
-                                LiftUpFunc(arg);
+                            MoveLift(j, i);
                                 
                             }
 
 
 
                         }
-                    }
+                    
                 }
-}
+
 
         lift_up.addEventListener('click', () => {LiftUpFunc(i)} )
 
@@ -259,9 +251,8 @@ const addBtnFunc =  () => {
 
 
 
-// create a function to move the lift
-const MoveLift = 
-    (lift, k) => {
+// create a function to move the lift 
+    async function MoveLift (lift, k) {
 
         function getOffset(el) {
             const rect = el.getBoundingClientRect();
@@ -271,23 +262,103 @@ const MoveLift =
             };
           }
         
-        const lifts = localStorage.getItem('lifts');  
-        const curFloor = JSON.parse(localStorage.getItem(`lift${lift+1}CurFloor`).trim());
-        const liftQueue =  JSON.parse(localStorage.getItem(`lift${lift+1}Queue`));
-        const lift_unit = document.getElementsByClassName('lift_unit')[lift];
-        const lift_space_g = document.getElementsByClassName('floor')[0].getElementsByClassName('lift_space')[0];
-        const lift_space_f = document.getElementsByClassName('floor')[1].getElementsByClassName('lift_space')[0];
-        const lift_space_diff = getOffset(lift_space_f).top - getOffset(lift_space_g).top;
+        
+
+        await new Promise((resolve, reject) => {
+
+            const lifts = localStorage.getItem('lifts');  
+            let curFloor = JSON.parse(localStorage.getItem(`lift${lift+1}CurFloor`).trim());
+            let liftQueue =  JSON.parse(localStorage.getItem(`lift${lift+1}Queue`));
+
+            if ((curFloor[0] === k ) && (curFloor[1] >= 0)) {
+                console.log(`lift is on same floor, opening doors`)
+                OpenDoors((k*lifts)+lift);
+                setTimeout(() => {resolve();}, 7500);     
+            }
+            else {
+
+            
+            let lift_unit = document.getElementsByClassName('lift_unit')[lift];
+            const lift_space_g = document.getElementsByClassName('floor')[0].getElementsByClassName('lift_space')[0];
+            const lift_space_f = document.getElementsByClassName('floor')[1].getElementsByClassName('lift_space')[0];
+            const lift_space_diff = getOffset(lift_space_f).top - getOffset(lift_space_g).top;
+
         console.log(getOffset(lift_space_f).top, getOffset(lift_space_g).top ,lift_space_diff);
     
         lift_unit.style.transition = `all ${Math.abs(curFloor[0]-k)*2}s `;
+
+        const diff = (k-curFloor[0]);
+
+        console.log(`current position of lift is ${getOffset(lift_unit).top}`)
+
+        console.log(`value of next floor is ${k} and value of current floor is ${curFloor[0]} lift would move ${ getOffset(lift_unit).top + ((k-curFloor[0])*lift_space_diff)}px `)
     
-        lift_unit.style.transform = `translate(0px, ${ (k*lift_space_diff)}px)`;
-        setTimeout(() => {OpenDoors((k*lifts)+lift);}, Math.abs(curFloor[0]-k)*2000);
+        lift_unit.style.transform += `translate(0px, ${ ((k-curFloor[0])*lift_space_diff)}px)`;
+
+        let temp = curFloor[0];
+
+        const dir = (curFloor[0]<k) ? 1 : -1;
+        curFloor[0], curFloor[1] = k, dir;
+        localStorage.setItem(`lift${lift+1}CurFloor`, JSON.stringify([k, dir]));
+
+
+        setTimeout(() => {OpenDoors((k*lifts)+lift);console.log(`lift ${lift+1} reached to ${k}`);
+    
+    
+        
+        
+        
+   
+        setTimeout(() => {
+            liftQueue =  JSON.parse(localStorage.getItem(`lift${lift+1}Queue`));
+            const idx = liftQueue.up.indexOf(k);
+            liftQueue.up.splice(idx, 1);
+            localStorage.setItem(`lift${lift+1}Queue`, JSON.stringify(liftQueue));
+
+            resolve(); console.log('Resolved');}, 7500); 
+                
+    }, Math.abs(temp-k)*2000);
+
+        for (let i=0; i<Math.abs(temp-k)-1; i++) {
+            setTimeout(() => {temp += (diff/Math.abs(diff)); console.log(`lift ${lift+1} is at ${temp}`);}, (i+1)*2000);
+        }
+      
+            
+        setTimeout(() => {console.log(`lift ${lift+1} is at ${temp+(diff/Math.abs(diff))}`)}, Math.abs(diff)*2000);    
+            console.log(temp);
+        //     localStorage.setItem(`lift${lift+1}CurFloor`, JSON.stringify(curFloor));
+        //     console.log(`lift ${lift+1} is at ${curFloor[0]}`);
+        //     // setTimeout( () => {}, 2000);
+        
+    }
+        
+        });
+
+        
+        
+        let liftQueue =  JSON.parse(localStorage.getItem(`lift${lift+1}Queue`));
+        let curFloor = JSON.parse(localStorage.getItem(`lift${lift+1}CurFloor`).trim());
+        if (liftQueue.up.length > 0) {
+            const preferDict = preferDictGenUp(liftQueue.up, curFloor[0]);
+            console.log(`Next floor is ${preferDict[0]}`);
+            MoveLift(lift, preferDict[0]);
+        }
         
         
        
     }
+
+    const preferDictGenUp = (list, k) => {
+        const preferDict = {};
+            let key = 0;
+            list.sort();
+            list.forEach((item) => {if(item>k)  {preferDict[key] = item; key++;} });
+            list.forEach((item) => {if(item<k)  {preferDict[key] = item; key++;} });
+
+            return preferDict;
+    }
+
+
 
 
 
