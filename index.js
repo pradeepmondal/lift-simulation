@@ -169,7 +169,7 @@ const addBtnFunc =  () => {
             
 })
 
-        const LiftUpFunc = async (floorNum) => {
+        const LiftFunc = async (floorNum, dir) => {
             let curFloor = JSON.parse(localStorage.getItem(`lift${j+1}CurFloor`).trim());
             let isMove = false;
 
@@ -212,7 +212,7 @@ const addBtnFunc =  () => {
                 }
 
 
-        lift_up.addEventListener('click', () => {LiftUpFunc(i)} )
+        lift_up.addEventListener('click', () => {LiftFunc(i, 1)} )
 
         lift_down.addEventListener('click', () => {
             curFloor = JSON.parse(localStorage.getItem(`lift${j+1}CurFloor`).trim());
