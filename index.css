@@ -142,10 +142,20 @@ body {
     border: solid rgba(0, 0, 0, 0.923);
     border-radius: 0.5rem;
     cursor: pointer;
+    
 }
 
 .lift_btn button {
     margin: 0;
+    font-size: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    
+}
+
+.lift_btn button:hover {
+    color: rgb(244, 24, 24);
+    border: solid rgb(244, 24, 24);
 }
 
 .lift_space {
@@ -174,7 +184,14 @@ body {
     height: 12rem;
     /* margin:  0 1rem; */
     padding: 0rem;
-    background-color: rgba(20, 134, 37, 0.67);
+    /* background-color: rgba(20, 134, 37, 0.67); */
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    text-align: center;
+    font-size: 2rem;
+    
+    background-image: url(images/lift_image.jpg);
+    background-size: cover;
     border: solid rgba(0, 0, 0, 0.923);
     border-radius: 0.5rem;
 }
@@ -290,5 +307,10 @@ body {
     100% {
         width: 100%;
     }
+}
+
+.btn_active {
+    color: rgb(221, 72, 17);
+    border: solid rgb(244, 24, 24);
 }
     

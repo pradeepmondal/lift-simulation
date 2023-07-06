@@ -75,7 +75,7 @@ const CreateUI = () => {
                 lift_unit = document.createElement('div');
                 lift_unit.classList.add('lift_unit');
                 lift_unit.style.display = 'absolute';
-                lift_unit.innerText = `Lift ${i+1}`;
+                
                 lift_space.appendChild(lift_unit);
                 
                 
@@ -104,8 +104,11 @@ const CreateUI = () => {
     }
     }
 
+
+
     // creating lift doors
     LiftDoors();
+   
 
     // document.getElementsByClassName('lift_up')[0].addEventListener('click', () => {
     //     OpenDoors(0);
@@ -162,15 +165,21 @@ const addBtnFunc =  () => {
         const lift_up = document.getElementsByClassName('lift_up')[(i*lifts)+j];
         const lift_down = document.getElementsByClassName('lift_down')[(i*lifts)+j];
         floor_up.addEventListener('click', () => {
+            
             for (let l=0; l<lifts; l++) {
                 LiftFunc(i, 1, l);
+                let liftBtn = document.getElementsByClassName('floor')[i].getElementsByClassName('lift_up')[l];
+                liftBtn.classList.add('btn_active');
             }
             
         })
 
         floor_down.addEventListener('click', () => {
+            
             for (let l=0; l<lifts; l++) {
                 LiftFunc(i+1, -1, l);
+                let liftBtn = document.getElementsByClassName('floor')[i+1].getElementsByClassName('lift_down')[l];
+                liftBtn.classList.add('btn_active');
             }
             
 })
@@ -271,9 +280,9 @@ const addBtnFunc =  () => {
                 }
 
 
-        lift_up.addEventListener('click', () => {LiftFunc(i, 1, j)} )
+        lift_up.addEventListener('click', () => {LiftFunc(i, 1, j); lift_up.classList.add('btn_active');} )
 
-        lift_down.addEventListener('click', () => {LiftFunc(i+1, -1, j)} )
+        lift_down.addEventListener('click', () => {LiftFunc(i+1, -1, j); lift_down.classList.add('btn_active');} )
 
 
 
@@ -287,6 +296,7 @@ const addBtnFunc =  () => {
     async function MoveLift (lift, k, dir) {
         let con = false;
         let con2 = false; 
+        let lifts = localStorage.getItem('lifts');
 
         function getOffset(el) {
             const rect = el.getBoundingClientRect();
@@ -353,6 +363,8 @@ const addBtnFunc =  () => {
             const idx = liftQueue.up.indexOf(k);
             liftQueue.up.splice(idx, 1);
             localStorage.setItem(`lift${lift+1}Queue`, JSON.stringify(liftQueue));
+            let lift_up = document.getElementsByClassName('floor')[k].getElementsByClassName('lift_up')[lift];
+            lift_up.classList.remove('btn_active');
 
             resolve(); console.log('Resolved');}, 7500); 
                 
@@ -376,7 +388,15 @@ const addBtnFunc =  () => {
         let liftQueue =  JSON.parse(localStorage.getItem(`lift${lift+1}Queue`));
         const idx = liftQueue.up.indexOf(k);
         liftQueue.up.splice(idx, 1);
-        localStorage.setItem(`lift${lift+1}Queue`, JSON.stringify(liftQueue));}
+        localStorage.setItem(`lift${lift+1}Queue`, JSON.stringify(liftQueue));
+        let lift_up = document.getElementsByClassName('floor')[k].getElementsByClassName('lift_up')[lift];
+            lift_up.classList.remove('btn_active');
+        
+
+
+        
+    
+    }
 
     }
     else if(dir === -1) {
@@ -434,6 +454,8 @@ const addBtnFunc =  () => {
             const idx = liftQueue.down.indexOf(k);
             liftQueue.down.splice(idx, 1);
             localStorage.setItem(`lift${lift+1}Queue`, JSON.stringify(liftQueue));
+            let lift_down = document.getElementsByClassName('floor')[k].getElementsByClassName('lift_down')[lift];
+            lift_down.classList.remove('btn_active');
 
             resolve(); console.log('Resolved Down');}, 7500); 
                 
@@ -458,6 +480,8 @@ const addBtnFunc =  () => {
             const idx = liftQueue.down.indexOf(k);
             liftQueue.down.splice(idx, 1);
             localStorage.setItem(`lift${lift+1}Queue`, JSON.stringify(liftQueue));
+            let lift_down = document.getElementsByClassName('floor')[k].getElementsByClassName('lift_down')[lift];
+            lift_down.classList.remove('btn_active');
 
         }
 
