@@ -620,7 +620,7 @@ const Intro = () => {
 
         else if ((screen_width<=650)) {
             max_lifts = 2
-            max_floors = 3
+            max_floors = 4
         }
 
         intro.innerHTML = `<h1>Welcome to Lift Simulation</h1>
