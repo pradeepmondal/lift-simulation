@@ -18,6 +18,11 @@ body {
 
 }
 
+.input_param {
+    width: 4rem;
+
+}
+
 .intro_input {
     display: flex;
     flex-direction: column;
@@ -59,6 +64,7 @@ body {
     background-color: rgb(186, 186, 186);
     margin: 1rem 5%;
     padding: 0.8rem 0rem;
+    height: 8rem;
 }
 
 .container {
@@ -79,7 +85,7 @@ body {
     display: flex;
     flex-direction: column-reverse;
     border: 0.rem solid rgba(82, 85, 85, 0.388);
-    width: 5rem;
+    width: fit-content;
     height: fit-content;
     padding: 0.4rem;
     margin-left: 0.4rem;
@@ -96,6 +102,7 @@ body {
     margin: 0;
     margin-top: 0;
     padding: 0.5rem;
+    font-size: 1.2rem;
  
     border-radius: 0.5rem;
 }
@@ -121,6 +128,7 @@ body {
     border: solid rgba(0, 0, 0, 0.923);
     border-radius: 0.5rem;
     cursor: pointer;
+    font-size: 0.5rem;
 }
 
 .floor_btn button:hover {
@@ -147,7 +155,7 @@ body {
 
 .lift_btn button {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.5rem;
     padding: 0.5rem;
     cursor: pointer;
     
@@ -163,8 +171,8 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 8rem;
-    height: 12rem;
+    width: 5rem;
+    height: 8rem;
     margin:  0 1rem;
     padding: 0rem;
     background-color: rgba(24, 29, 61, 0.67);
@@ -180,20 +188,31 @@ body {
     justify-content: center;
     align-items: center;
     /* transform: translate(10rem, -10rem); */
-    width: 8rem;
-    height: 12rem;
-    /* margin:  0 1rem; */
+    width: 5rem;
+    height: 8rem;
+    
     padding: 0rem;
     /* background-color: rgba(20, 134, 37, 0.67); */
     color: rgb(255, 255, 255);
     font-weight: 600;
     text-align: center;
     font-size: 2rem;
+
     
+    
+    
+    /* border: 0.1rem solid rgba(0, 0, 0, 0.923); */
+    border-radius: 0.5rem;
+}
+
+.outside_lift {
+    background-image: url(images/in_door.png);
+    background-size: cover;
+}
+
+.inside_lift {
     background-image: url(images/lift_image.jpg);
     background-size: cover;
-    border: solid rgba(0, 0, 0, 0.923);
-    border-radius: 0.5rem;
 }
 
 .lift_unit1 {
@@ -216,17 +235,56 @@ body {
     /* display: absolute; */
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 8rem;
-    height: 12rem;
+    width: 5rem;
+    height: 8rem;
 
 }
 
 .door_container {
     z-index: 2;
     position: absolute;
-    width: 8rem;
-    height: 12rem;
+    width: 5rem;
+    height: 8rem;
     margin-bottom: 12rem;
+}
+
+@media  screen and (max-width: 700px) {
+    .floor {
+        height: 5rem;
+    }
+    .lift_unit {
+        width: 3rem;
+        height: 5rem;
+        margin-left: 0.25rem;
+        
+    }
+  
+    .lift_space {
+        width: 3rem;
+        height: 5rem;
+        margin: 0 0.4rem;
+    }
+    .lift_doors {
+        width: 3rem;
+        height: 5rem;
+    }
+    .door_container {
+        width: 3rem;
+        height: 5rem;
+        margin-bottom: 5rem;
+    }
+   
+    .lift_btn button {
+        font-size: 0.3rem;
+    }
+    .floor_number {
+        font-size: 0.8rem;
+    }
+    .floor_btn button {
+        font-size: 0.3rem;
+    }
+
+    
 }
 
 .lift_door_left {
@@ -234,7 +292,7 @@ body {
     flex-direction: column;
     width: 100%;
     background-color: rgb(162, 162, 162);
-    border: 0.01rem solid rgb(0, 0, 0);
+    border:  solid rgb(0, 0, 0);
 
 }
 
@@ -243,7 +301,7 @@ body {
     
     width: 100%;
     background-color: rgb(162, 162, 162);
-    border: 0.01rem solid rgb(0, 0, 0);
+    border:  solid rgb(0, 0, 0);
 
 }
 

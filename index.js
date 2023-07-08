@@ -1,12 +1,12 @@
 // Description: Entry point for the lift simulation
 
 // function to start the simulation
-const StartSimulation = () => {
+const StartSimulation = (max_floors, max_lifts) => {
     const btn = document.getElementById('start');
     btn.addEventListener('click', () => {
         const floors = document.getElementById('floors').value;
         const lifts = document.getElementById('lifts').value;
-        if ((floors>0) && (lifts>0)) {
+        if (((floors>0) && (lifts>0)) && ((floors<=max_floors) && (lifts<=max_lifts))) {
 
             localStorage.setItem('floors', floors);
             localStorage.setItem('lifts', lifts);
@@ -14,6 +14,9 @@ const StartSimulation = () => {
 
             CreateUI();
 
+        }
+        else {
+            alert(`Please enter valid values for floors and lifts. \n Floors should be between 1 and ${max_floors} \n Lifts should be between 1 and ${max_lifts}`);
         }
 
     });
@@ -74,6 +77,7 @@ const CreateUI = () => {
             if(j==0) {
                 lift_unit = document.createElement('div');
                 lift_unit.classList.add('lift_unit');
+                lift_unit.classList.add('outside_lift');
                 lift_unit.style.display = 'absolute';
                 
                 lift_space.appendChild(lift_unit);
@@ -129,9 +133,19 @@ const OpenDoors = (lift) => {
     lift_door_left.classList.remove('lift_door_closed_left');
     lift_door_right.classList.add('lift_door_open_right');
     lift_door_right.classList.remove('lift_door_closed_right');
+    let lifts = localStorage.getItem('lifts');
+    let lift_unit = document.getElementsByClassName('lift_unit')[lift%lifts];
+
+    lift_unit.classList.remove('outside_lift');
+    lift_unit.classList.add('inside_lift')
+    lift_unit.style.transition = `all 0s `;
     setTimeout(() => {
         CloseDoors(lift);
     }, 5000);
+    setTimeout(() => {
+        lift_unit.classList.remove('inside_lift');
+        lift_unit.classList.add('outside_lift');
+    }, 7000);
 }
 
 const CloseDoors = (lift) => {
@@ -577,12 +591,38 @@ const Intro = () => {
     setTimeout(() => {
         const intro = document.createElement('div');
         intro.classList.add('intro');
-        document.getElementById('#root').appendChild(intro)
+        document.getElementById('#root').appendChild(intro);
+        const screen_width = window.innerWidth;
+        const screen_height = window.innerHeight;
+        let max_lifts = 10;
+        let max_floors = 10;
+
+        if ((screen_width>980) && (screen_height>728)){
+            max_lifts = 4 + Math.floor((screen_width-980)/130)
+            max_floors = 3 + Math.floor((screen_height-728)/190)
+
+        }
+
+        else if ((screen_width<=980) && (screen_width>=850) && (screen_height<=728)){
+            max_lifts = 4
+            max_floors = 3
+
+        }
+
+        else if ((screen_width>=700) && (screen_width>850) && (screen_height<728)){
+            max_lifts = 3
+            max_floors = 3
+        }
+        else if ((screen_width<700) && (screen_width>650)) {
+            max_lifts = 4
+            max_floors = 4
+        }
+
         intro.innerHTML = `<h1>Welcome to Lift Simulation</h1>
-        <div class="intro_input"><div><label>Enter number of floors</label><input type="number" id="floors" min="1" max="10" value="5" /></div>
-        <div><label>Enter number of lifts</label><input type="number" id="lifts" min="1" max="10" value="2" /></div>
+        <div class="intro_input"><div><label>Enter number of floors</label><input type="number" class = "input_param" id="floors" min="1" max="10" placeholder = "max - ${max_floors}" /></div>
+        <div><label>Enter number of lifts</label><input class = "input_param" type="number" id="lifts" min="1" max="${max_lifts}" placeholder = "max - ${max_lifts}" /></div>
         <button id="start">Start Simulation</button></div>`
-        StartSimulation();
+        StartSimulation(max_floors, max_lifts);
 
     }, 1000);
 
