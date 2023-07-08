@@ -1,5 +1,62 @@
 // Description: Entry point for the lift simulation
 
+// Starts the intro section
+const Intro = () => {
+
+
+    // Intro Section appears after 1 second
+    setTimeout(() => {
+        const intro = document.createElement('div');
+        intro.classList.add('intro');
+        document.getElementById('#root').appendChild(intro);
+        const screen_width = window.innerWidth;
+        const screen_height = window.innerHeight;
+        let max_lifts = 10;
+        let max_floors = 10;
+
+        if ((screen_width>980) && (screen_height>728)){
+            max_lifts = 4 + Math.floor((screen_width-980)/130)
+            max_floors = 3 + Math.floor((screen_height-728)/190)
+
+        }
+
+        else if ((screen_width<=980) && (screen_width>=850) && (screen_height<=728)){
+            max_lifts = 4
+            max_floors = 3
+
+        }
+
+        else if ((screen_width>=700) && (screen_width<850) && (screen_height<=728)){
+            max_lifts = 3
+            max_floors = 3
+        }
+        else if ((screen_width<700) && (screen_width>650)) {
+            max_lifts = 3
+            max_floors = 4
+        }
+
+        else if ((screen_width<=650)) {
+            max_lifts = 2
+            max_floors = 4
+        }
+
+        intro.innerHTML = `<h1>Welcome to Lift Simulation</h1>
+        <div class="intro_input"><div><label>Enter number of floors</label><input type="number" class = "input_param" id="floors" min="1" max="10" placeholder = "max - ${max_floors}" /></div>
+        <div><label>Enter number of lifts</label><input class = "input_param" type="number" id="lifts" min="1" max="${max_lifts}" placeholder = "max - ${max_lifts}" /></div>
+        <button id="start">Start Simulation</button></div>`
+        StartSimulation(max_floors, max_lifts);
+
+    }, 1000);
+
+    
+};
+
+
+
+
+// Starting the Intro part
+Intro();
+
 // function to start the simulation
 const StartSimulation = (max_floors, max_lifts) => {
     const btn = document.getElementById('start');
@@ -51,6 +108,7 @@ const CreateUI = () => {
         floor.innerHTML = `<div class="floor_ctrl">${ctrBtn.innerHTML}<div class="floor_number"> ${(i==0)?'Floor G':'Floor '+i}</div></div>`;
         container.appendChild(floor);
     }
+
     // creating lifts & lift spaces
     for (let i=0; i<lifts; i++) {
         const lift = document.createElement('div');
@@ -93,6 +151,7 @@ const CreateUI = () => {
         
         
     }
+
     //function to create lift doors
     const LiftDoors = () => {
         const l_spaces = document.getElementsByClassName('lift_space');
@@ -114,18 +173,22 @@ const CreateUI = () => {
     LiftDoors();
    
 
-    // document.getElementsByClassName('lift_up')[0].addEventListener('click', () => {
-    //     OpenDoors(0);
-    // });
+    
 
+
+    // creating lift queue
     createLiftsQueue();
 
+
+    // adding button functionalities
     addBtnFunc();
 
 
     
 };
 
+
+// function to open lift doors
 const OpenDoors = (lift) => {
     const lift_door_left = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_left')[0];
     const lift_door_right = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_right')[0];
@@ -148,6 +211,8 @@ const OpenDoors = (lift) => {
     }, 7000);
 }
 
+
+// function to close lift doors
 const CloseDoors = (lift) => {
     const lift_door_left = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_left')[0];
     const lift_door_right = document.getElementsByClassName('lift_doors')[lift].getElementsByClassName('lift_door_right')[0];
@@ -172,12 +237,16 @@ const addBtnFunc =  () => {
     const floors = localStorage.getItem('floors');
     const lifts = localStorage.getItem('lifts');
 
+
+    // adding event listeners to floor buttons and lift buttons
     for (let i=0; i<floors; i++) {
         for (let j=0; j<lifts; j++) {   
         const floor_up = document.getElementsByClassName('floor_up')[i];
         const floor_down = document.getElementsByClassName('floor_down')[i];
         const lift_up = document.getElementsByClassName('lift_up')[(i*lifts)+j];
         const lift_down = document.getElementsByClassName('lift_down')[(i*lifts)+j];
+
+        // adding event listeners to floor up buttons
         floor_up.addEventListener('click', () => {
             
             for (let l=0; l<lifts; l++) {
@@ -188,6 +257,7 @@ const addBtnFunc =  () => {
             
         })
 
+        // adding event listeners to floor down buttons
         floor_down.addEventListener('click', () => {
             
             for (let l=0; l<lifts; l++) {
@@ -198,19 +268,21 @@ const addBtnFunc =  () => {
             
 })
 
+
+        // function to trigger move lift function
         const LiftFunc = async (floorNum, dir, j=j) => {
             let curFloor = JSON.parse(localStorage.getItem(`lift${j+1}CurFloor`).trim());
             let isMove = false;
 
             if(dir === 1) {
-                if ((curFloor[0] === floorNum) && (curFloor[1] >= 0)) {
+            //     if ((curFloor[0] === floorNum) && (curFloor[1] >= 0)) {
                 
-                console.log(`lift is on same floor, opening the doors`);
-                // MoveLift(j, floorNum, dir);
+            //     console.log(`lift is on same floor, opening the doors`);
+            //     // MoveLift(j, floorNum, dir);
                 
-            }
+            // }
                 
-                    console.log(`lift is on different floor, adding to queue`);
+                    console.log(` adding to queue`);
                     const liftQueue =  JSON.parse(localStorage.getItem(`lift${j+1}Queue`));
 
                     if((liftQueue.up.length === 0)&&(liftQueue.down.length === 0)) {
@@ -243,14 +315,14 @@ const addBtnFunc =  () => {
                 
             }
              else if(dir === -1) {
-                if ((curFloor[0] === floorNum) && (curFloor[1] <= 0)) {
+            //     if ((curFloor[0] === floorNum) && (curFloor[1] <= 0)) {
                 
-                console.log(`lift is on same floor, opening the doors`)
-                MoveLift(j, floorNum, dir);
+            //     console.log(`lift is on same floor, opening the doors`)
+            //     MoveLift(j, floorNum, dir);
 
-            }
+            // }
             
-                    console.log(`lift is on different floor, adding to queue`);
+                    console.log(`adding to queue`);
                     const liftQueue =  JSON.parse(localStorage.getItem(`lift${j+1}Queue`));
 
                     if((liftQueue.up.length === 0)&&(liftQueue.down.length === 0)) {
@@ -294,6 +366,8 @@ const addBtnFunc =  () => {
                 }
 
 
+
+        // adding event listeners to lift up and down buttons
         lift_up.addEventListener('click', () => {LiftFunc(i, 1, j); lift_up.classList.add('btn_active');} )
 
         lift_down.addEventListener('click', () => {LiftFunc(i+1, -1, j); lift_down.classList.add('btn_active');} )
@@ -306,7 +380,7 @@ const addBtnFunc =  () => {
 
 
 
-// create a function to move the lift 
+// function to move the lift 
     async function MoveLift (lift, k, dir) {
         let con = false;
         let con2 = false; 
@@ -391,9 +465,7 @@ const addBtnFunc =  () => {
             
         setTimeout(() => {console.log(`lift ${lift+1} is at ${temp+(diff/Math.abs(diff))}`)}, Math.abs(diff)*2000);    
             console.log(temp);
-        //     localStorage.setItem(`lift${lift+1}CurFloor`, JSON.stringify(curFloor));
-        //     console.log(`lift ${lift+1} is at ${curFloor[0]}`);
-        //     // setTimeout( () => {}, 2000);
+        
         
     }
         
@@ -557,6 +629,8 @@ const addBtnFunc =  () => {
        
     }
 
+    // functions to determine where the next lift should go next
+
     const preferDictGenUp = (list, k) => {
         const preferDict = {};
             let key = 0;
@@ -584,61 +658,6 @@ const addBtnFunc =  () => {
 
 
 
-const Intro = () => {
-
-
-    // Intro Section appears after 1 second
-    setTimeout(() => {
-        const intro = document.createElement('div');
-        intro.classList.add('intro');
-        document.getElementById('#root').appendChild(intro);
-        const screen_width = window.innerWidth;
-        const screen_height = window.innerHeight;
-        let max_lifts = 10;
-        let max_floors = 10;
-
-        if ((screen_width>980) && (screen_height>728)){
-            max_lifts = 4 + Math.floor((screen_width-980)/130)
-            max_floors = 3 + Math.floor((screen_height-728)/190)
-
-        }
-
-        else if ((screen_width<=980) && (screen_width>=850) && (screen_height<=728)){
-            max_lifts = 4
-            max_floors = 3
-
-        }
-
-        else if ((screen_width>=700) && (screen_width<850) && (screen_height<=728)){
-            max_lifts = 3
-            max_floors = 3
-        }
-        else if ((screen_width<700) && (screen_width>650)) {
-            max_lifts = 3
-            max_floors = 4
-        }
-
-        else if ((screen_width<=650)) {
-            max_lifts = 2
-            max_floors = 4
-        }
-
-        intro.innerHTML = `<h1>Welcome to Lift Simulation</h1>
-        <div class="intro_input"><div><label>Enter number of floors</label><input type="number" class = "input_param" id="floors" min="1" max="10" placeholder = "max - ${max_floors}" /></div>
-        <div><label>Enter number of lifts</label><input class = "input_param" type="number" id="lifts" min="1" max="${max_lifts}" placeholder = "max - ${max_lifts}" /></div>
-        <button id="start">Start Simulation</button></div>`
-        StartSimulation(max_floors, max_lifts);
-
-    }, 1000);
-
-    
-};
-
-
-
-
-// Starting the Intro part
-Intro();
 
 
 
